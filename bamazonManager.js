@@ -9,6 +9,9 @@ const connection = mysql.createConnection({
 	database: 'bamazon'
 	});
 
+//variables
+const holder = new String();
+
 //make connection
 connection.connect(function(err) {
   	if (err) {
@@ -99,28 +102,24 @@ function addStep2(){
 	      	console.log('addQuantity:', answer.addQuantity);
 	      	let addQuantity = answer.addQuantity
 	      	let addId = answer.addId;
-	      	connection.query(`UPDATE products SET stock = ${addQuantity} WHERE item_id = ${addId}`,
+	      	connection.query(`UPDATE products SET stock = (stock + ${addQuantity}) WHERE item_id = ${addId}`,
 	            // [{newQuantity}, {currentId}],
 	            function(error) {
 	              	if (error) {
 	              		console.log('update stock error:\n',error);
 	              	}
-			    //update stock
-			    else{
-			    	let increasedQuantity = result + answer.addQuantity;
-			    	connection.query("UPDATE products SET ? WHERE ?",
-		            [{stock: increasedQuantity}, {id: answer.id}],
-		            function(error) {
-		              	if (error) {
-		              		console.log('increased stock error:\n',error);
-		              	}
+			    	//update stock
+				    else{
 		              	console.log("Your stock is updated!");
-		            });
-			    }
+		            }
+			    
 			});
 		});
 }
 
+// function getCurrentStock(){
+
+// }
 
 
 //Function to add Item
